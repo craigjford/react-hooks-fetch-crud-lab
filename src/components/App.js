@@ -20,9 +20,15 @@ function App() {
   }
   
   function handleQuestDel(id) {
-    const newQuestions = questions.filter((question) => question.id !== id);
-    setQuestions(newQuestions)
-    setPage("List")
+    fetch(`http://localhost:4000/questions/${id}`, {
+      method: "DELETE",
+    })
+    .then(() => {
+      const newQuestions = questions.filter((question) => question.id !== id);
+      setQuestions(newQuestions)
+      setPage("List")      
+    })
+
   }
 
   function handleQuestChg(id, newQuestion) {

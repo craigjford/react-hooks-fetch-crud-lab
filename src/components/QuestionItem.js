@@ -32,9 +32,6 @@ function QuestionItem({ question, onQuestChg, onQuestDel }) {
    
   function handleDelete() {
     console.log('in Question Item delete');
-    fetch(`http://localhost:4000/questions/${id}`, {
-      method: "DELETE",
-  })
     onQuestDel(id);
   }
 
