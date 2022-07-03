@@ -1,38 +1,41 @@
 import React from "react";
 
-
-function QuestionItem({ question, onQuestChg, onQuestDel }) {
+function QuestionItem({ question, onDeleteQuestion, onhandleUpdate }) {
   const { id, prompt, answers, correctIndex } = question;
-
+  
   const options = answers.map((answer, index) => (
     <option key={index} value={index}>
       {answer}
     </option>
   ));
 
-  function handleChange(event) {
+  const handleQuestionDelete = (id) => {
 
-      console.log('in Question Item update')
-      console.log('update id = ', id);
-      const childId = parseInt(event.target.value)
-
-      fetch(`http://localhost:4000/questions/${id}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-           correctIndex: childId,
-        }),
-      })
-        .then((r) => r.json())    
-        .then((updatedQuestion) => onQuestChg(id, updatedQuestion));
-      
+    console.log(`http://localhost:4000/question/${question.id}`);
+    fetch(`http://localhost:4000/questions/${question.id}`, {
+      method: "DELETE",
+    })
+    onDeleteQuestion(id);
   }
-   
-  function handleDelete() {
-    console.log('in Question Item delete');
-    onQuestDel(id);
+
+  const handleQuestionUpdate = (event) => {
+    console.log('in QItem event = ', event.target.value)
+    //console.log('in QItem correctIndex = ', correctIndex);
+    //console.log(`http://localhost:4000/questions/${question.id}`);
+
+    const newCorrectIndex = parseInt(event.target.value)
+
+    fetch(`http://localhost:4000/questions/${question.id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        correctIndex: newCorrectIndex,  
+      }),
+    })
+      .then((r) => r.json())
+      .then((updatedQuestion) => onhandleUpdate(updatedQuestion));
   }
 
   return (
@@ -41,9 +44,9 @@ function QuestionItem({ question, onQuestChg, onQuestDel }) {
       <h5>Prompt: {prompt}</h5>
       <label>
         Correct Answer:
-        <select defaultValue={correctIndex} onChange={handleChange}>{options}</select>
+        <select defaultValue={correctIndex} onChange={handleQuestionUpdate}>{options}</select>
       </label>
-      <button onClick={handleDelete}>Delete Question</button>
+      <button onClick={() => handleQuestionDelete(id)}>Delete Question</button>
     </li>
   );
 }

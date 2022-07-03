@@ -5,55 +5,43 @@ import QuestionList from "./QuestionList";
 
 function App() {
   const [page, setPage] = useState("List");
-  const [questions, setQuestions] = useState([]);
- 
-  useEffect(() => { 
-    console.log('using useEffect fetching')
-    fetch('http://localhost:4000/questions')
-    .then(resp => resp.json())
-    .then(data => setQuestions(data))
-  },[])
+  const [questionList, setQuestionList] = useState([])
 
-  function handlePageChange(type) {
-    console.log("in app new quest type = ", type)
-    setPage(type)
+  useEffect (() => {
+    fetch("http://localhost:4000/questions")
+      .then((res) => res.json())
+      .then((data) => setQuestionList(data))
+  }, [])
+
+  const handleSubmit = (newQuestion) => {
+    setQuestionList(...questionList, newQuestion)
+    setPage("List")
+  } 
+
+  const handleDelete = (id) => {
+    const newQuestionList = questionList.filter((question) => question.id !== id);
+    setQuestionList(newQuestionList);
   }
   
-  function handleQuestDel(id) {
-    fetch(`http://localhost:4000/questions/${id}`, {
-      method: "DELETE",
-    })
-    .then(() => {
-      const newQuestions = questions.filter((question) => question.id !== id);
-      setQuestions(newQuestions)
-      setPage("List")      
+  const handleUpdate = (updatedQuestion) => {
+
+    const newQuestionList = questionList.map((question) => {
+      if (updatedQuestion.id === question.id) {
+        return updatedQuestion;
+      } else {
+        return question;
+      }
     })
 
-  }
+    setQuestionList(newQuestionList)
 
-  function handleQuestChg(id, newQuestion) {
-    const newQuestions = questions.map((question) => {
-        if (question.id !== id) {
-            return question;
-        } else {
-            return newQuestion;
-        }
-    })
-    setQuestions(newQuestions)
-    setPage("List")
-}
-
-  function handleQuestSubmit(newQuestion) {
-    const newQuestions = [...questions, newQuestion]
-    setQuestions(newQuestions);
-    setPage("List")
   }
 
   return (
     <main>
-      <AdminNavBar onChangePage={handlePageChange} />
-      {page === "Form" ? <QuestionForm onQuestSubmit={handleQuestSubmit} /> : 
-          <QuestionList questions={questions} onQuestChg={handleQuestChg} onQuestDel={handleQuestDel} />}
+      <AdminNavBar onChangePage={setPage} />
+      {page === "Form" ? <QuestionForm onFormSubmit={handleSubmit} /> : 
+          <QuestionList questions={questionList} onDeleteQuestion={handleDelete} onhandleUpdate={handleUpdate} />}
     </main>
   );
 }
