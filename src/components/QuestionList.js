@@ -2,7 +2,6 @@ import React from "react";
 import QuestionItem from "./QuestionItem";
 
 function QuestionList({ questions, onDeleteQuestion, onhandleUpdate }) {
-  console.log('in QuestionList - questions = ', questions);
 
   const displayQuestions = questions.map((question) => {
     return <QuestionItem key={question.id} 

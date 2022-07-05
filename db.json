@@ -74,19 +74,30 @@
         "Steve",
         "Jim"
       ],
-      "correctIndex": 3,
+      "correctIndex": 0,
       "id": 8
     },
     {
-      "prompt": "What is capital of North Dakota?",
+      "prompt": "What is the capital of North Dakota?",
       "answers": [
-        "Fargo",
-        "Bismarck",
+        "Minot",
         "Grand Forks",
-        "Minot"
+        "Bismarck",
+        "Fargo"
       ],
-      "correctIndex": 0,
+      "correctIndex": 2,
       "id": 9
+    },
+    {
+      "prompt": "What city do the Bulls play their home games?",
+      "answers": [
+        "Cleveland",
+        "Chicago",
+        "San Antonio",
+        "NYC"
+      ],
+      "correctIndex": 1,
+      "id": 10
     }
   ]
 }

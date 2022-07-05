@@ -19,9 +19,6 @@ function QuestionItem({ question, onDeleteQuestion, onhandleUpdate }) {
   }
 
   const handleQuestionUpdate = (event) => {
-    console.log('in QItem event = ', event.target.value)
-    //console.log('in QItem correctIndex = ', correctIndex);
-    //console.log(`http://localhost:4000/questions/${question.id}`);
 
     const newCorrectIndex = parseInt(event.target.value)
 

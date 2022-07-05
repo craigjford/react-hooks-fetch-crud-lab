@@ -14,7 +14,7 @@ function App() {
   }, [])
 
   const handleSubmit = (newQuestion) => {
-    setQuestionList(...questionList, newQuestion)
+    setQuestionList([...questionList, newQuestion])
     setPage("List")
   } 
 
